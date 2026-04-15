@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdint.h>
+
+
+uint32_t feistel(uint32_t r, uint32_t k) {
+    return r ^ k;
+}
+
+int main() {
+    uint64_t plaintext = 0x0123456789ABCDEF;
+    uint64_t key = 0x133457799BBCDFF1;
+
+    uint32_t left, right, temp;
+    int i;
+
+    left = plaintext >> 32;
+    right = plaintext & 0xFFFFFFFF;
+
+    printf("Initial: L0 = %08X, R0 = %08X\n", left, right);
+
+    for(i = 1; i <= 16; i++) {
+        temp = right;
+        right = left ^ feistel(right, (uint32_t)key);
+        left = temp;
+
+        printf("Round %2d: L = %08X, R = %08X\n", i, left, right);
+    }
+
+   
+    uint64_t ciphertext = ((uint64_t)right << 32) | left;
+
+    printf("Ciphertext: %016llX\n", ciphertext);
+
+    return 0;
+}
