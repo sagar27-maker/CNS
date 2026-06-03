@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char username[20], password[20];
+
+    printf("===== Role-Based Access Control System =====\n");
+
+    printf("Enter Username: ");
+    scanf("%s", username);
+
+    printf("Enter Password: ");
+    scanf("%s", password);
+
+    if(strcmp(username, "admin") == 0 && strcmp(password, "admin123") == 0)
+    {
+        printf("\nAccess Granted as Admin\n");
+        printf("Permissions:\n");
+        printf("- View System Settings\n");
+        printf("- Modify Users\n");
+        printf("- Access All Logs\n");
+    }
+    else if(strcmp(username, "guest") == 0 && strcmp(password, "guest123") == 0)
+    {
+        printf("\nAccess Granted as Guest\n");
+        printf("Permissions:\n");
+        printf("- View Public Resources\n");
+    }
+    else if(strcmp(username, "student") == 0 && strcmp(password, "stud123") == 0)
+    {
+        printf("\nAccess Granted as Student\n");
+        printf("Permissions:\n");
+        printf("- View Own Records\n");
+        printf("- Submit Assignments\n");
+    }
+    else
+    {
+        printf("\nInvalid Credentials\n");
+    }
+
+    return 0;
+}
