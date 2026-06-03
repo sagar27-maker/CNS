@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    char id[20], pass[20];
+
+    printf("----- Simulated EAP Handshake -----\n\n");
+
+    printf("[EAP-Request]: Please provide your Identity.\n");
+    printf("Enter Identity: ");
+    scanf("%s", id);
+
+    printf("[EAP-Response]: %s\n", id);
+
+    printf("[EAP-Request]: Please provide your Password.\n");
+    printf("Enter Password: ");
+    scanf("%s", pass);
+
+    printf("[EAP-Response]: ********\n");
+
+    if(strcmp(id, "student123") == 0 &&
+       strcmp(pass, "secure@123") == 0)
+    {
+        printf("[EAP-Success]: Authentication Successful\n");
+    }
+    else
+    {
+        printf("[EAP-Failure]: Authentication Failed\n");
+    }
+
+    return 0;
+}
