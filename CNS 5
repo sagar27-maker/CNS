@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+long long power(long long base, long long exp, long long mod)
+{
+    long long result = 1;
+
+    while (exp > 0)
+    {
+        result = (result * base) % mod;
+        exp--;
+    }
+
+    return result;
+}
+
+int main()
+{
+    long long p, g;
+    long long a, b;
+    long long A, B;
+    long long keyA, keyB;
+
+    printf("Enter a prime number: ");
+    scanf("%lld", &p);
+
+    printf("Enter a primitive root of %lld: ", p);
+    scanf("%lld", &g);
+
+    printf("Enter Private Key for User A: ");
+    scanf("%lld", &a);
+
+    printf("Enter Private Key for User B: ");
+    scanf("%lld", &b);
+
+    A = power(g, a, p);
+    B = power(g, b, p);
+
+    printf("\nPublic Key for User A: %lld\n", A);
+    printf("Public Key for User B: %lld\n", B);
+
+    keyA = power(B, a, p);
+    keyB = power(A, b, p);
+
+    printf("\nShared Secret Key for User A: %lld\n", keyA);
+    printf("Shared Secret Key for User B: %lld\n", keyB);
+
+    if (keyA == keyB)
+        printf("\nKey Exchange Successful! Shared Key: %lld\n", keyA);
+    else
+        printf("\nError in Key Exchange!\n");
+
+    return 0;
+}
