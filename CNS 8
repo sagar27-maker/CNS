@@ -128,3 +128,23 @@ int main()
 
     return 0;
 }
+
+
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    int i;
+
+    for(i = 1; i <= 64; i++)
+    {
+        unsigned int k;
+
+        k = fabs(sin(i)) * 4294967296.0;
+
+        printf("0x%08x\n", k);
+    }
+
+    return 0;
+}
