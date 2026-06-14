@@ -1,34 +1,60 @@
+
 #include <stdio.h>
 
+int gcd(int a, int b)
+{
+    while(b != 0)
+    {
+        int t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
 
-long long power(long long base, long long exp, long long mod) {
+long long power(long long base, long long exp, long long mod)
+{
     long long result = 1;
-       while (exp > 0) {
+
+    while(exp > 0)
+    {
         result = (result * base) % mod;
         exp--;
     }
-return result;
+
+    return result;
 }
 
-int main() {
+int main()
+{
     int p = 61, q = 53;
-    int n = p * q;             
+    int n = p * q;
     int phi = (p - 1) * (q - 1);
-    int e = 7;   
-    int d = 1783;   
 
-    int message = 42;
+    int e;
+    for(e = 2; e < phi; e++)
+    {
+        if(gcd(e, phi) == 1)
+            break;
+    }
 
-    long long encrypted = power(message, e, n);
+    int d;
+    for(d = 2; d < phi; d++)
+    {
+        if((e * d) % phi == 1)
+            break;
+    }
 
+    int msg = 42 ;
 
-    long long decrypted = power(encrypted, d, n);
+    long long encrypt = power(msg, e, n);
+    long long decrypt = power(encrypt, d, n);
 
-    printf("Public Key: (%d, %d)\n", e, n);
-    printf("Private Key: (%d, %d)\n", d, n);
-    printf("Original Message: %d\n", message);
-    printf("Encrypted Message: %lld\n", encrypted);
-    printf("Decrypted Message: %lld\n", decrypted);
+    printf("\nPublic Key (e,n) = (%d,%d)", e, n);
+    printf("\nPrivate Key (d,n) = (%d,%d)", d, n);
+    printf("\n Original Message =%lld ", msg);
+    printf("\nEncrypted Message = %lld", encrypt);
+    printf("\nDecrypted Message = %lld", decrypt);
 
     return 0;
 }
