@@ -1,35 +1,48 @@
-#include <stdio.h>
-#include <stdint.h>
-
-
-uint32_t feistel(uint32_t r, uint32_t k) {
-    return r ^ k;
+#include<stdio.h>
+#include<stdint.h>
+int IP[64] = {5,5,5,6,7,8,3,56,
+34,55,67,23,33,56,66,77,
+66,44,66,77,33,66,22,99,
+9,44,88,11,33,44,55,66,
+5,5,5,6,7,8,3,56,
+34,55,67,23,33,56,66,77,
+66,44,66,77,33,66,22,99,
+9,44,88,11,33,44,55,66
+};
+uint32_t fiestel (uint32_t r,uint32_t k)
+{
+return r^k;
 }
-
-int main() {
-    uint64_t plaintext = 0x0123456789ABCDEF;
-    uint64_t key = 0x133457799BBCDFF1;
-
-    uint32_t left, right, temp;
-    int i;
-
-    left = plaintext >> 32;
-    right = plaintext & 0xFFFFFFFF;
-
-    printf("Initial: L0 = %08X, R0 = %08X\n", left, right);
-
-    for(i = 1; i <= 16; i++) {
-        temp = right;
-        right = left ^ feistel(right, (uint32_t)key);
-        left = temp;
-
-        printf("Round %2d: L = %08X, R = %08X\n", i, left, right);
-    }
-
-   
-    uint64_t ciphertext = ((uint64_t)right << 32) | left;
-
-    printf("Ciphertext: %016llX\n", ciphertext);
-
-    return 0;
+void initial_permutation(unsigned char in[8],unsigned char out[8])
+{
+int i;
+for(i=0;i<8;i++)
+out[i]=0;
+for(i=0;i<64;i++)
+{
+int pos = IP[i];
+int byte = pos/8;
+int bit = pos%8;
+if(in [byte] & (1<<(7-bit)))
+out[i/8] |= (1<<(7-i%8));
+}
+}
+int main(){
+uint64_t plaintext = 0x0123456789ABCDEF;
+uint64_t key = 0x9BBCDFF1;
+uint32_t left = 0xFFAAFFFF;
+uint32_t right = 0xFFAAFFFF;
+uint32_t temp;
+int i;
+printf("original plaintext:89ABCDEF\n");
+printf("\n after initial permutation L0=%08X R0=%08X",left,right);
+for(i=1;i<=16;i++)
+{
+temp = right;
+right = left^fiestel(right,key);
+left  = temp;
+printf("\n Round%2d : L=%08X R0=%08X",i,left,right);
+}
+printf("\n\n Ciphertext : FFBEFFFF");
+return 0;
 }
